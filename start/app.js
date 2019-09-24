@@ -60,7 +60,9 @@ const aliases = {}
 | ere you store your queue jobs
 |
 */
-const jobs = []
+const jobs = [
+  'App/Jobs/NewTaskMail'
+]
 
 /*
 |--------------------------------------------------------------------------
