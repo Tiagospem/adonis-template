@@ -1,6 +1,13 @@
 'use strict'
 
+const Antl = use('Antl')
+
 class User {
+  get messages () {
+    // file at resources/locales/*/
+    return Antl.list('validation')
+  }
+
   get validateAll () {
     return true
   }
