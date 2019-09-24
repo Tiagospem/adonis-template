@@ -27,5 +27,12 @@ Route.post('sessions', 'SessionController.store')
 Route.post('passwords', 'ForgotPasswordController.store')
 Route.put('passwords', 'ForgotPasswordController.update')
 
-Route.post('files', 'FileController.store')
-Route.get('files/:id', 'FileController.show')
+Route.group(() => {
+  Route.post('files', 'FileController.store')
+  Route.get('files/:id', 'FileController.show')
+  Route.resource('projects', 'ProjectController').apiOnly()
+  // utilizar o recurso de rotas abaixo somente em casos especificos
+  // onde não é possivel criar separadamente (examplo nao é possivel criar
+  // task sem um projeto)
+  Route.resource('projects.tasks', 'TaskController').apiOnly()
+}).middleware(['auth'])
