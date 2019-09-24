@@ -40,7 +40,7 @@ class ForgotPasswordController {
 
   async update ({ request, response }) {
     try {
-      const { token, newPassword } = request.all()
+      const { token, password } = request.all()
       const user = await User.findByOrFail('token', token)
 
       const tokenExpired = moment()
@@ -59,7 +59,7 @@ class ForgotPasswordController {
 
       user.token = null
       user.token_created_at = null
-      user.password = newPassword
+      user.password = password
 
       await user.save()
     } catch (e) {

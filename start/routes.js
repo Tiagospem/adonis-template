@@ -22,17 +22,35 @@ Route.get('/', () => {
 
 Route.post('users', 'UserController.store').validator('User')
 
-Route.post('sessions', 'SessionController.store')
+Route.post('sessions', 'SessionController.store').validator('Session')
 
-Route.post('passwords', 'ForgotPasswordController.store')
-Route.put('passwords', 'ForgotPasswordController.update')
+Route.post('passwords', 'ForgotPasswordController.store').validator('ForgotPassword')
+Route.put('passwords', 'ForgotPasswordController.update').validator('ResetPassword')
 
 Route.group(() => {
   Route.post('files', 'FileController.store')
   Route.get('files/:id', 'FileController.show')
-  Route.resource('projects', 'ProjectController').apiOnly()
+  Route.resource('projects', 'ProjectController')
+    .apiOnly()
+    .validator(new Map(
+      [
+        [
+          ['projects.store'],
+          ['Project']
+        ]
+      ]
+    ))
   // utilizar o recurso de rotas abaixo somente em casos especificos
   // onde não é possivel criar separadamente (examplo nao é possivel criar
   // task sem um projeto)
-  Route.resource('projects.tasks', 'TaskController').apiOnly()
+  Route.resource('projects.tasks', 'TaskController')
+    .apiOnly()
+    .validator(new Map(
+      [
+        [
+          ['projects.tasks.store'],
+          ['Project']
+        ]
+      ]
+    ))
 }).middleware(['auth'])
