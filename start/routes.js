@@ -24,6 +24,10 @@ Route.get('/ws', ({ view }) => {
   return view.render('ws.demo')
 })
 
+Route.get('/ws-projects', ({ view }) => {
+  return view.render('ws.demo_project')
+})
+
 Route.post('users', 'UserController.store').validator('User')
 Route.put('users/:id', 'UserController.update')
 

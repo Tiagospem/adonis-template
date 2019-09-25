@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+<div id="status"></div>
+
+<div>
+  <p>o elemento UL recebe uma lista via WS quando um projecto é criado via hook</p>
+  <ul>
+  </ul>
+</div>
+
+</body>
+{{ script('https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js') }}
+{{ script('https://unpkg.com/@adonisjs/websocket-client@1.0.9/dist/Ws.browser.js') }}
+<script>
+
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTU2OTQyOTkzNX0.AldgBuFmr5dFVi29zr_azTUnrLLc4FvdncZeAheLMFQ'
+  const userId = 1
+
+  const status = document.querySelector('div#status')
+  const list = document.querySelector('ul')
+
+  let ws = adonis.Ws('ws://localhost:3333')
+      ws = ws.withJwtToken(token);
+      ws.connect()
+
+  ws.on('open', () => {
+    status.innerHTML = "open"
+  })
+  ws.on('error', () => {
+    status.innerHTML = "error"
+  })
+
+  ws.on('close', () => {
+    status.innerHTML = "close"
+  })
+
+  const wsdemo = ws.subscribe('wsProject')
+
+  wsdemo.on('newProject', (data) => {
+    const li = document.createElement('li')
+    li.innerHTML = JSON.stringify(data)
+    list.appendChild(li)
+  })
+
+</script>
+</html>

@@ -13,7 +13,6 @@ const Ws = use('Ws')
 const globalMiddleware = [
 ]
 
-
 /*
 |--------------------------------------------------------------------------
 | Named middleware
@@ -31,8 +30,8 @@ const globalMiddleware = [
 | Ws.channel('chat', 'ChatController').middleware(['auth'])
 */
 const namedMiddleware = {
+  auth: 'Adonis/Middleware/Auth'
 }
-
 
 Ws
   .registerGlobal(globalMiddleware)

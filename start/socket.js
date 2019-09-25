@@ -16,3 +16,4 @@
 const Ws = use('Ws')
 
 Ws.channel('wsdemo', 'WsDemoController')
+Ws.channel('wsProject', 'ProjectController')
