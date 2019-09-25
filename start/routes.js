@@ -20,6 +20,10 @@ Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
 
+Route.get('/ws', ({ view }) => {
+  return view.render('ws.demo')
+})
+
 Route.post('users', 'UserController.store').validator('User')
 Route.put('users/:id', 'UserController.update')
 

@@ -23,7 +23,8 @@ const providers = [
   '@adonisjs/redis/providers/RedisProvider',
   'adonis-kue/providers/KueProvider',
   'adonis-sentry/providers/Sentry',
-  'adonis-acl/providers/AclProvider'
+  'adonis-acl/providers/AclProvider',
+  '@adonisjs/websocket/providers/WsProvider'
 ]
 
 /*

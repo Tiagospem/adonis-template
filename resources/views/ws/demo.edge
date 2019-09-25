@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+<div id="status"></div>
+
+<div>
+  <ul>
+  </ul>
+  <textarea name="txt" id="txt" rows="3"></textarea>
+</div>
+
+</body>
+{{ script('https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js') }}
+{{ script('https://unpkg.com/@adonisjs/websocket-client@1.0.9/dist/Ws.browser.js') }}
+<script>
+
+  const status = document.querySelector('div#status')
+  const textarea = document.querySelector('textarea')
+  const list = document.querySelector('ul')
+
+  let ws = adonis.Ws('ws://localhost:3333').connect()
+  ws.on('open', () => {
+    status.innerHTML = "open"
+  })
+  ws.on('error', () => {
+    status.innerHTML = "error"
+  })
+
+  ws.on('close', () => {
+    status.innerHTML = "close"
+  })
+
+  const wsdemo = ws.subscribe('wsdemo')
+
+  textarea.addEventListener('keypress', (e) => {
+    if(e.code === "Enter"){
+      e.preventDefault()
+      wsdemo.emit('message', {text: textarea.value})
+      textarea.value = ""
+    }
+  })
+
+  wsdemo.on('message', (data) => {
+    const li = document.createElement('li')
+    li.innerHTML = data.text
+    list.appendChild(li)
+  })
+
+</script>
+</html>
