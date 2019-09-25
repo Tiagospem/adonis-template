@@ -28,10 +28,11 @@ class RoleController {
     const role = await Role.create(data)
 
     if (permissions) {
+      // registra permissions passando o id em um array
       await role.permissions().attach(permissions)
     }
 
-    await role.with('permissions')
+    await role.load('permissions')
 
     return role
   }
@@ -55,7 +56,7 @@ class RoleController {
       await role.permissions().sync(permissions)
     }
 
-    await role.with('permissions')
+    await role.load('permissions')
 
     return role
   }

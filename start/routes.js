@@ -21,6 +21,7 @@ Route.get('/', () => {
 })
 
 Route.post('users', 'UserController.store').validator('User')
+Route.put('users/:id', 'UserController.update')
 
 Route.post('sessions', 'SessionController.store').validator('Session')
 
@@ -55,4 +56,5 @@ Route.group(() => {
     ))
 
   Route.resource('permissions', 'PermissionController').apiOnly()
+  Route.resource('roles', 'RoleController').apiOnly()
 }).middleware(['auth'])
