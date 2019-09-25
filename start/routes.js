@@ -33,6 +33,7 @@ Route.group(() => {
   Route.get('files/:id', 'FileController.show')
   Route.resource('projects', 'ProjectController')
     .apiOnly()
+    .except(['index', 'show'])
     .validator(new Map(
       [
         [
@@ -40,7 +41,11 @@ Route.group(() => {
           ['Project']
         ]
       ]
-    ))
+    )).middleware(['is:(administrator || moderator)'])
+  Route.get('projects', 'ProjectController.index')
+    .middleware(['auth', 'can:read_projects'])
+  Route.get('projects/:id', 'ProjectController.show')
+    .middleware(['auth', 'can:read_projects'])
   // utilizar o recurso de rotas abaixo somente em casos especificos
   // onde não é possivel criar separadamente (examplo nao é possivel criar
   // task sem um projeto)
