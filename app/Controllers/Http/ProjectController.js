@@ -12,7 +12,7 @@ class ProjectController {
     const { page = 1, limit = 1 } = request.get()
 
     // libera todos os projetos
-    if (user.can('read_private_projects')) {
+    if (await user.can('read_private_projects')) {
       const projects = await Project.query()
         .with('user')
         .paginate(page, limit)
