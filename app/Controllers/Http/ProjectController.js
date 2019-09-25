@@ -6,10 +6,23 @@ class ProjectController {
   /**
    * /projects?page=2&limit=3
    */
-  async index ({ request }) {
+  async index ({ request, auth }) {
+    const user = await auth.getUser()
+
     const { page = 1, limit = 1 } = request.get()
+
+    // libera todos os projetos
+    if (user.can('read_private_projects')) {
+      const projects = await Project.query()
+        .with('user')
+        .paginate(page, limit)
+      return projects
+    }
+    // libera somente os publicos com base
+    // na permission
     const projects = await Project.query()
       .with('user')
+      .where({ type: 'public' })
       .paginate(page, limit)
     return projects
   }

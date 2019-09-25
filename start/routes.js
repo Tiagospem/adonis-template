@@ -43,9 +43,9 @@ Route.group(() => {
       ]
     )).middleware(['is:(administrator || moderator)'])
   Route.get('projects', 'ProjectController.index')
-    .middleware(['auth', 'can:read_projects'])
+    .middleware(['auth', 'can:read_projects || read_private_projects'])
   Route.get('projects/:id', 'ProjectController.show')
-    .middleware(['auth', 'can:read_projects'])
+    .middleware(['auth', 'can:read_projects || read_private_projects'])
   // utilizar o recurso de rotas abaixo somente em casos especificos
   // onde não é possivel criar separadamente (examplo nao é possivel criar
   // task sem um projeto)

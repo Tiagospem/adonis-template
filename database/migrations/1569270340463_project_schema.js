@@ -15,6 +15,7 @@ class ProjectSchema extends Schema {
         .onUpdate('CASCADE')
         .onDelete('SET NULL')
       table.string('title').notNullable()
+      table.string('type').notNullable().defaultTo('public')
       table.text('description').notNullable()
       table.timestamps()
     })
